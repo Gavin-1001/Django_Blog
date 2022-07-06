@@ -1,8 +1,9 @@
 from xml.etree.ElementTree import Comment
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, reverse
 from django.views import generic, View
 from .models import Post
 from .forms import CommentForm
+from django.http import HttpResponseRedirect
 
 class PostList(generic.ListView):
     model = Post
@@ -69,3 +70,17 @@ class PostDetail(View):
                 "comment_form": CommentForm()
             },
         )
+class PostLike(View):
+    
+    def post(self, request, slug):
+        post = get_object_or_404(Post, slug=slug) ##gets post
+        
+        #checks if post has already been liked
+        if(post.likes.filter(id=request.user.id).exists()):
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+        
+        return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+                
+            

@@ -55,6 +55,25 @@
                 </span>
             </div>
         </div>
+        <!--This container is responsible the alert that is created when the user log in/out or creates account-->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    {%for message in messages%}
+                        <div class="alert {{message.tags}} alert-dismissible fade show" id="msg" role="alert">
+                            {{ message | safe }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+
+                          
+                        </div>
+
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+
+
+
     </nav>
 
     <main class="flex-shrink-0 main-bg">
@@ -71,6 +90,14 @@
             <i class="fab fa-instagram-square ms-3"></i>
             <i class="fab fa-youtube-square ms-3"></i></p>
     </footer>
+    <script>
+        //This function closes the alert box that appears when the user logs in/out or account created
+        setTimeout(function(){
+            let messages = document.getElementById("msg");
+            let alert = new bootstrap.Alert(messages);
+            alert.close();
+        }, 3000);
+    </script>
 </body>
 
 </html>
